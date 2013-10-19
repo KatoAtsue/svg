@@ -1,2 +1,2 @@
-make svg files using ruby
+create svg files using ruby
 ===
