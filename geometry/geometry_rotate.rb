@@ -9,6 +9,7 @@ f.write(<<"EOS"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   width="1200" height="1000"
   viewBox="0 0 1200 1000">
+  <title>geometry_rotate</title>
 EOS
 )
 cn = 200
