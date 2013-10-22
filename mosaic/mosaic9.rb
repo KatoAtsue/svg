@@ -8,11 +8,12 @@ photo = ImageList.new("tsubaki1.jpg")
 bx = 1250
 by = 1000
 
-x = 1260
-y = 390
+x = 1200
+y = 360
 
 def blur
-  [0.5, 0, -0.5][rand(3)]
+#  [0.5, 0, -0.5][rand(3)]
+  [0.5, 0.3, -0.3, -0.5, 0][rand(5)]
 end
 
 f = open("mosaic.svg", "w") 
@@ -32,17 +33,17 @@ EOS
 #---------------
 # mosaic
 #---------------
-sp = [[0, 350, 2],[0, 120,-3],[0, 0, 3],[0, 500, -2]]
+sp = [[430, 0.7, -3],[280, 0.7, 2],[120, 0.8, -1],[0, 0.7, 3]]
 
 4.times{|n|
 c_str = ""
 w_str = ""
 
-sp[n][1].step(y + sp[n][1],8.5){|j|
+sp[n][0].step(y + sp[n][0], 8.5){|j|
 	move_x = 0
 	pre_arch = 0
 
-	sp[n][0].step(x + sp[n][0],16.5){|i|
+	0.step(x, 16.5){|i|
     
     mx = move_x + blur
     my = j + blur - pre_arch
@@ -53,7 +54,7 @@ sp[n][1].step(y + sp[n][1],8.5){|j|
     length = 15.0 - rand(5)
     lx = length + blur
 
-    arch = ((move_x + lx) ** 0.7) * sp[n][2]
+    arch = ((move_x + lx) ** sp[n][1]) * sp[n][2]
     arch_relative = arch - pre_arch
 
 # color area
@@ -68,9 +69,9 @@ sp[n][1].step(y + sp[n][1],8.5){|j|
 		rx2 = blur.to_s
 		rx3 = blur.to_s
 		ry1 = 7 + blur
-		w_ry1 = (ry1 + 3.2).to_s
+		w_ry1 = (ry1 + 3.6).to_s
     r_side = "#{rx1}, 3 #{rx2}, 4 #{rx3}, #{ry1.to_s}"
-    w_r_side = "#{rx1}, 4.6 #{rx2}, 5.6 #{rx3}, #{w_ry1}"
+    w_r_side = "#{rx1}, 4.8 #{rx2}, 5.8 #{rx3}, #{w_ry1}"
 
 		dx1 = -length + blur
 	  dy1 = "%0.3f" % (blur + arch_relative * (3 / length))
@@ -89,13 +90,13 @@ sp[n][1].step(y + sp[n][1],8.5){|j|
 		w_lx1 = (lx1 - 2).to_s
 		w_lx2 = (lx2 - 2).to_s
 		w_lx3 = (mx - 2).to_s
-		w_ly1 = "%0.3f" % (my + 5.6)
-		w_ly2 = "%0.3f" % (my + 4.6)
-		w_ly3 = "%0.3f" % (my - 1.6)
+		w_ly1 = "%0.3f" % (my + 5.8)
+		w_ly2 = "%0.3f" % (my + 4.8)
+		w_ly3 = "%0.3f" % (my - 1.8)
     l_side = "#{lx1.to_s}, #{ly1} #{lx2.to_s}, #{ly2} #{lx3}, #{ly3}"
     w_l_side = "#{w_lx1}, #{w_ly1} #{w_lx2}, #{w_ly2} #{w_lx3}, #{w_ly3}"
 
-    w_str += %(<path d="M#{(mx - 2).to_s} #{"%0.3f" % (my - 1.6)} c#{w_u_side} c#{w_r_side} c#{w_d_side} C#{w_l_side} z" fill="#fff" />\n)
+    w_str += %(<path d="M#{(mx - 2).to_s} #{"%0.3f" % (my - 1.8)} c#{w_u_side} c#{w_r_side} c#{w_d_side} C#{w_l_side} z" fill="#fff" />\n)
     c_str += %(<path d="M#{mx.to_s} #{"%0.3f" % my} c#{u_side} c#{r_side} c#{d_side} C#{l_side} z" fill="##{rgb}" />\n)
 
     move_x += 1.5 + length
