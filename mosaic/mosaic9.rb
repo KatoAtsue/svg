@@ -5,11 +5,11 @@ include Magick
 
 photo = ImageList.new("tsubaki1.jpg")
 
-bx = 1000
+bx = 1250
 by = 1000
 
-x = 600
-y = 600
+x = 1260
+y = 390
 
 def blur
   [0.5, 0, -0.5][rand(3)]
@@ -29,86 +29,32 @@ f.write(<<"EOS"
 <rect x="0" y="0" fill="#fff" width="#{bx}" height="#{by}" />
 EOS
 )
-value = []
-#ary = Array.new(100){|i| [i ** 1.2 / 1.5, 255 - i ** 1.2 / 1.5, rand(5) * 0.1]}
-ary = Array.new(100){|i| [i ** 1.2 / 1.5, 255 - i ** 1.2 / 1.5, rand(3) * 0.1 + 0.7]}
-value.concat ary
+#---------------
+# mosaic
+#---------------
+sp = [[0, 350, 2],[0, 120,-3],[0, 0, 3],[0, 500, -2]]
 
-#---------------
-# mosaic1 color
-#---------------
-50.step(y + 50,8.5){|j|
+4.times{|n|
+c_str = ""
+w_str = ""
+
+sp[n][1].step(y + sp[n][1],8.5){|j|
 	move_x = 0
 	pre_arch = 0
 
-	0.step(x,16.5){|i|
-		
-    mx = move_x + blur
-    my = j + blur - pre_arch
-
-		cv = photo.pixel_color(mx,my)
-		rgb = sprintf("%02x%02x%02x", cv.red, cv.green, cv.blue)
-
-		length = 15.0 - rand(5)
-    lx = length + blur
-#    arch = ((move_x + lx) ** 0.7) * 3
-    arch = ((move_x + lx) ** 0.7) * -3
-
-    arch_relative = arch - pre_arch
-
-    u_side = "3, #{"%0.3f" % (blur - arch_relative*(3/length))} 9, #{"%0.3f" % (blur - arch_relative*(10/length))} #{lx.to_s}, #{"%0.3f" % (blur - arch_relative)}"
-    r_side = "#{blur.to_s}, 3 #{blur.to_s}, 4 #{blur.to_s}, #{(7 + blur).to_s}"
-
-    d_side = "-3, #{"%0.3f" % (blur + arch_relative*(3/length))} -9, #{"%0.3f" % (blur + arch_relative*(10/length))}  #{(-length + blur).to_s}, #{"%0.3f" % (blur + arch_relative)}"
-
-    l_side = "#{(mx + blur).to_s}, #{"%0.3f" % (my + 4)} #{(mx + blur).to_s}, #{"%0.3f" % (my + 3)} #{mx.to_s}, #{"%0.3f" % my}"
-
-    f.write %(<path d="M#{mx.to_s} #{"%0.3f" % my} c#{u_side} c#{r_side} c#{d_side} C#{l_side} z" fill="##{rgb}" />\n)
-
-    move_x += 1.5 + length
-    pre_arch = arch
-  }
-}
-
-#---------------
-# mosaic2 color
-#---------------
-0.step(y,8.5){|j|
-	move_x = 0
-	pre_arch = 0
-
-	0.step(x,16.5){|i|
+	sp[n][0].step(x + sp[n][0],16.5){|i|
     
     mx = move_x + blur
     my = j + blur - pre_arch
 
-		cv = photo.pixel_color(mx,my)
+		cv = photo.pixel_color(mx + 7, my + 3.5)
 		rgb = sprintf("%02x%02x%02x", cv.red, cv.green, cv.blue)
-
 
     length = 15.0 - rand(5)
     lx = length + blur
 
-#    white_length = length + 1.5
-    white_length = 16.5
-    white_lx = white_length + 1
-
-    arch = ((move_x + lx) ** 0.7) * 3
+    arch = ((move_x + lx) ** 0.7) * sp[n][2]
     arch_relative = arch - pre_arch
-
-
-# white area
-#----------------
-    white_u_side = "3, #{"%0.3f" % (-arch_relative*(3/white_length))} 9, #{"%0.3f" % (-arch_relative*(10/white_length))} #{white_lx.to_s}, #{"%0.3f" % (-arch_relative)}"
-
-#    white_r_side = "0, 3 0, 4 0, 8.5"
-    white_r_side = "0, 4 0, 5 0, 9.5"
-
-    white_d_side = "-3, #{"%0.3f" % (arch_relative*(3/white_length))} -9, #{"%0.3f" % ( arch_relative*(10/white_length))}  #{(-white_length).to_s}, #{"%0.3f" % arch_relative}"
-
-    white_l_side = "#{move_x.to_s}, #{"%0.3f" % (my + 4)} #{move_x.to_s}, #{"%0.3f" % (my + 3)} #{move_x.to_s}, #{"%0.3f" % my}"
-
-#    f.write %(<path d="M#{mx.to_s} #{"%0.3f" % my} c#{white_u_side} c#{white_r_side} c#{white_d_side} C#{white_l_side} z" fill="#fff" />\n)
 
 # color area
 #-----------------
@@ -116,28 +62,51 @@ value.concat ary
 		uy2 = "%0.3f" % (blur - arch_relative*(10/length))
 		uy3 = "%0.3f" % (blur - arch_relative)
 		u_side = "3, #{uy1} 9, #{uy2} #{lx.to_s}, #{uy3}"
-		w_u_side = "3.5, #{uy1} 9.5, #{uy2} #{(lx + 0.5).to_s}, #{uy3}"
+		w_u_side = "5, #{uy1} 11, #{uy2} #{(lx + 4).to_s}, #{uy3}"
 
-    r_side = "#{blur.to_s}, 3 #{blur.to_s}, 4 #{blur.to_s}, #{(7 + blur).to_s}"
-    w_r_side = "0.5, 3.5 0.5, 4.5 0, 8"
+    rx1 = blur.to_s
+		rx2 = blur.to_s
+		rx3 = blur.to_s
+		ry1 = 7 + blur
+		w_ry1 = (ry1 + 3.2).to_s
+    r_side = "#{rx1}, 3 #{rx2}, 4 #{rx3}, #{ry1.to_s}"
+    w_r_side = "#{rx1}, 4.6 #{rx2}, 5.6 #{rx3}, #{w_ry1}"
 
-    d_side = "-3, #{"%0.3f" % (blur + arch_relative*(3/length))} -9, #{"%0.3f" % (blur + arch_relative*(10/length))}  #{(-length + blur).to_s}, #{"%0.3f" % (blur + arch_relative)}"
-    l_side = "#{(mx + blur).to_s}, #{"%0.3f" % (my + 4)} #{(mx + blur).to_s}, #{"%0.3f" % (my + 3)} #{mx.to_s}, #{"%0.3f" % my}"
+		dx1 = -length + blur
+	  dy1 = "%0.3f" % (blur + arch_relative * (3 / length))
+		dy2 = "%0.3f" % (blur + arch_relative * (10 / length))
+		dy3 = "%0.3f" % (blur + arch_relative)
+		w_dx1 = (dx1 - 4).to_s
+		d_side = "-3, #{dy1} -9, #{dy2}  #{dx1.to_s}, #{dy3}"
+		w_d_side = "-5, #{dy1} -11, #{dy2}  #{w_dx1}, #{dy3}"
 
+		lx1 = mx + blur
+		lx2 = mx + blur
+		lx3 = mx.to_s
+		ly1 = "%0.3f" % (my + 4)
+		ly2 = "%0.3f" % (my + 3)
+		ly3 = "%0.3f" % my
+		w_lx1 = (lx1 - 2).to_s
+		w_lx2 = (lx2 - 2).to_s
+		w_lx3 = (mx - 2).to_s
+		w_ly1 = "%0.3f" % (my + 5.6)
+		w_ly2 = "%0.3f" % (my + 4.6)
+		w_ly3 = "%0.3f" % (my - 1.6)
+    l_side = "#{lx1.to_s}, #{ly1} #{lx2.to_s}, #{ly2} #{lx3}, #{ly3}"
+    w_l_side = "#{w_lx1}, #{w_ly1} #{w_lx2}, #{w_ly2} #{w_lx3}, #{w_ly3}"
 
-    f.write %(<path d="M#{mx.to_s} #{"%0.3f" % my} c#{white_u_side} c#{white_r_side} c#{white_d_side} C#{white_l_side} z" fill="#f66" />\n)
-#    f.write %(<path d="M#{(mx - 0.5).to_s} #{"%0.3f" % (my - 0.5)} c#{w_u_side} c#{w_r_side} c#{white_d_side} C#{white_l_side} z" fill="#f66" />\n)
-
-    f.write %(<path d="M#{mx.to_s} #{"%0.3f" % my} c#{u_side} c#{r_side} c#{d_side} C#{l_side} z" fill="##{rgb}" />\n)
+    w_str += %(<path d="M#{(mx - 2).to_s} #{"%0.3f" % (my - 1.6)} c#{w_u_side} c#{w_r_side} c#{w_d_side} C#{w_l_side} z" fill="#fff" />\n)
+    c_str += %(<path d="M#{mx.to_s} #{"%0.3f" % my} c#{u_side} c#{r_side} c#{d_side} C#{l_side} z" fill="##{rgb}" />\n)
 
     move_x += 1.5 + length
     pre_arch = arch
   }
 }
-
+f.write w_str
+f.write c_str
+}
 f.write %(</svg>\n)
 f.close
-
 
 mosaic_data = ImageList.new("mosaic.svg")
 #mosaic_data.write("mosaic.png")

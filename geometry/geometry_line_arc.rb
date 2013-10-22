@@ -38,21 +38,21 @@ cn = 200
       ]
       mx = (cx - cos(PI * (90 - rd) / 180) * l1).to_s
       my = (cy - sin(PI * (90 - rd) / 180) * l1).to_s
-      f.write(%!<path d="M #{mx}, #{my}\n!)
+      f.write %(<path d="M #{mx}, #{my}\n)
       (180 / rd).times{|m|
         co[cs].each {|n|
           ax = (cx + cos(PI * (90 - n[0] - m * rd * 2) / 180) * n[1]).to_s
           ay = (cy - sin(PI * (90 - n[0] - m * rd * 2) / 180) * n[1]).to_s
           if cs == 0
-            f.write(%!A#{rx}, #{ry} #{(m * rd * 2).to_s} 1, 1 #{ax}, #{ay}\n!)
+            f.write %(A#{rx}, #{ry} #{(m * rd * 2).to_s} 1, 1 #{ax}, #{ay}\n)
           else
-            f.write(%!L#{ax}, #{ay}\n!)
+            f.write %(L#{ax}, #{ay}\n)
           end
         }
       }
-      f.write(%!" />\n</g>\n!)
+      f.write %(" />\n</g>\n)
     }
   }
 }
-f.write(%!</svg>\n!)
+f.write %(</svg>\n)
 f.close
