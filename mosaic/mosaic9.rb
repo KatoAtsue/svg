@@ -5,15 +5,15 @@ include Magick
 
 photo = ImageList.new("tsubaki1.jpg")
 
-bx = 1250
-by = 1000
+bx = 1280
+by = 900
 
-x = 1200
-y = 360
+x = 1250
+y = 370
 
 def blur
 #  [0.5, 0, -0.5][rand(3)]
-  [0.5, 0.3, -0.3, -0.5, 0][rand(5)]
+  [0.3, 0.4, -0.4, -0.3, 0][rand(5)]
 end
 
 f = open("mosaic.svg", "w") 
@@ -33,9 +33,16 @@ EOS
 #---------------
 # mosaic
 #---------------
-sp = [[430, 0.7, -3],[280, 0.7, 2],[120, 0.8, -1],[0, 0.7, 3]]
+sp = [
+	[688, 0.75, 3],
+	[560, 0.7, -3],
+	[280, 0.7, 2],
+	[120, 1.2, -0.07],
+	[815, 1.2, 0.07],
+	[30, 0.7, 3]
+	]
 
-4.times{|n|
+6.times{|n|
 c_str = ""
 w_str = ""
 
@@ -109,6 +116,6 @@ f.write c_str
 f.write %(</svg>\n)
 f.close
 
-mosaic_data = ImageList.new("mosaic.svg")
+#mosaic_data = ImageList.new("mosaic.svg")
 #mosaic_data.write("mosaic.png")
 
