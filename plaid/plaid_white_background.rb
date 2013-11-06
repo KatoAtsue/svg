@@ -13,8 +13,8 @@ f.write(<<"EOS"
 EOS
 )
 int = 15
-cn = [0, 90, 45, 135]
-ct = ['20, 20','0, -1100','20, 10','-650,-900']
+cn = [0, 90]
+ct = ['20, 20','0, -1100']
 2.times{|i|
   f.write %(<g transform="rotate(#{cn[i].to_s})">\n)
   f.write %(<g transform="translate(#{ct[i]})">\n)
@@ -28,19 +28,20 @@ ct = ['20, 20','0, -1100','20, 10','-650,-900']
     st2 = ['none', crgb]
     f.write %(<path d=")
     wx = [250, 100, 50, 25].sample
-    f.write %(M0, #{(j * int).to_s} )
+    jy = j * int
+    f.write %(M0, #{jy.to_s} )
     (500 / wx).times{|k|
       wy = rand(-3..3)
-      f.write %(Q#{(k * wx * 2 + wx).to_s}, #{(wy + j * int).to_s} )
-      f.write %(#{(k * wx * 2 + wx * 2).to_s}, #{(j * int).to_s} )
+      f.write %(Q#{(k * wx * 2 + wx).to_s}, #{(wy + jy).to_s} )
+      f.write %(#{(k * wx * 2 + wx * 2).to_s}, #{jy.to_s} )
     }
-    f.write %(L1000, #{(j * int + int).to_s} )
+    f.write %(L1000, #{(jy + int).to_s} )
     (500 / wx).times{|k|
       wy = rand(-3..3)
-      f.write %(Q#{(1000 - (k * wx * 2 + wx)).to_s}, #{(wy + j * int + int).to_s} )
-      f.write %(#{(1000 - (k * wx * 2 + wx * 2)).to_s}, #{(j * int + int).to_s} )
+      f.write %(Q#{(1000 - (k * wx * 2 + wx)).to_s}, #{(wy + jy + int).to_s} )
+      f.write %(#{(1000 - (k * wx * 2 + wx * 2)).to_s}, #{(jy + int).to_s} )
     }
-    f.write %(L0, #{(j * int).to_s} )
+    f.write %(L0, #{jy.to_s} )
     f.write %(" fill="#{(st2[j % 2])}" stroke="#{(st[j % 2])}" />\n)
   }
   f.write %(</g>\n</g>\n</g>\n</g>\n)
