@@ -2,7 +2,7 @@
 require_relative '../lib/svg_canvas'
 
 # header
-s = SvgCanvas.new(200, 200, "ellipse_rotate")
+s = SvgCanvas.new(220, 220, "ellipse_rotate")
 f = s.header
 
 # main
