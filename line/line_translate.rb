@@ -1,17 +1,11 @@
 
-f = open("line_translate.svg", "w") 
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1200" height="1200"
-  viewBox="0 0 1200 1200">
-  <title>line_translate</title>
-EOS
-)
+require_relative '../lib/svg_canvas'
+
+# header
+s = SvgCanvas.new(1200, 1200, "line_translate")
+f = s.header
+
+# main
 int = 5
 cn = [0, 45, 90, 135]
 ct = ['20, 20','20, 10','0, -1100','-650,-900']
@@ -32,5 +26,6 @@ ct = ['20, 20','20, 10','0, -1100','-650,-900']
   }
   f.write %(</g>\n</g>\n</g>\n)
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer

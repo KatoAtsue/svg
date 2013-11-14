@@ -1,19 +1,11 @@
 
-x = 1000
-y = 1000
-f = open("line_quadratic.svg", "w") 
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="#{x}" height="#{y}"
-  viewBox="0 0 #{x} #{y}">
-<title>line_quadratic</title>
-EOS
-)
+require_relative '../lib/svg_canvas'
+
+# header
+s = SvgCanvas.new(1000, 1000, "line_quadratic")
+f = s.header
+
+# main
 f.write %(<g fill="none" stroke-width="0.3">\n)
 var = [
   ['999', 0.9, 2.6],
@@ -51,5 +43,6 @@ limit = 550
   f.write %(</g>\n)
 }
 f.write %(</g>\n)
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer

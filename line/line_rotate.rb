@@ -1,19 +1,12 @@
 
+require_relative '../lib/svg_canvas'
 include Math
 
-f = open("line_rotate.svg", "w") 
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1200" height="1200"
-  viewBox="0 0 1200 1200">
-  <title>line_rotate</title>
-EOS
-)
+# header
+s = SvgCanvas.new(1200, 1200, "line_rotate")
+f = s.header
+
+# main
 int = 5
 cn = ['0 0,0',
       '45 35,-110',
@@ -32,5 +25,6 @@ st = ['none','#aaa']
   }
   f.write %(</g>\n)
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer
