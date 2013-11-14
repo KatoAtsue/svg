@@ -1,17 +1,11 @@
 
-f = open("wave_simple.svg", "w") 
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1200" height="1200"
-  viewBox="0 0 1200 1200">
-<title>wave_simple</title>
-EOS
-)
+require_relative '../lib/svg_canvas'
+
+# header
+s = SvgCanvas.new(1200, 1200, "wave_simple")
+f = s.header
+
+# main
 cn = [[0, 20, 30],[45, 90, -60]]
 2.times{|i|
   f.write %(<g transform="rotate(#{cn[i][0]})">\n)
@@ -30,5 +24,6 @@ cn = [[0, 20, 30],[45, 90, -60]]
   }
   f.write %(</g>\n)
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer

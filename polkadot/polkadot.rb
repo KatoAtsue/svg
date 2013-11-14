@@ -1,5 +1,5 @@
-#!/usr/local/bin/ruby
 
+require_relative '../lib/svg_canvas'
 include Math
 
 class Line
@@ -37,19 +37,12 @@ class Line
   end
 end
 
-f = open("polkadot.svg", "w") 
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1000" height="1000"
-  viewBox="0 0 1000 1000">
-<title>polkadot</title>
-EOS
-)
+
+# header
+s = SvgCanvas.new(1000, 1000, "polkadot")
+f = s.header
+
+# main
 cn = [0, 90]
 ct = ['20, 20','10, -970']
 2.times{|i|
@@ -66,5 +59,6 @@ ct = ['20, 20','10, -970']
   }
   f.write %(</g>\n</g>\n</g>\n</g>\n)
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer
