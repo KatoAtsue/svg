@@ -1,6 +1,6 @@
 
-require './canvas.rb'
-require './transparency.rb'
+require_relative '../../lib/svg_canvas'
+require_relative './transparency.rb'
 include Math
 
 class Line
@@ -59,9 +59,12 @@ class Line
   end
 end
 
-f = open("color_transparency.svg", "w") 
-header = Canvas.new(1000, 1000, "color_transparency")
-f.write(header.canvas)
+
+# header
+s = SvgCanvas.new(1000, 1000, "color_transparency")
+f = s.header
+
+# main
 cn = [0, 90, 45, 135]
 ct = ['20, 20','10, -970','20, 10','-650,-900']
 2.times{|i|
@@ -79,5 +82,6 @@ ct = ['20, 20','10, -970','20, 10','-650,-900']
   }
   f.write %(</g>\n</g>\n</g>\n</g>\n)
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer
