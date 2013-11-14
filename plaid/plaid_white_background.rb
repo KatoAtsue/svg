@@ -1,17 +1,11 @@
 
-f = open("plaid_white_background.svg", "w") 
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1200" height="1200"
-  viewBox="0 0 1200 1200">
-<title>plaid_white_background</title>
-EOS
-)
+require_relative '../lib/svg_canvas'
+
+# header
+s = SvgCanvas.new(1200, 1200, "plaid_white_background")
+f = s.header
+
+# main
 int = 15
 cn = [0, 90]
 ct = ['20, 20','0, -1100']
@@ -22,8 +16,8 @@ ct = ['20, 20','0, -1100']
   f.write %(<g fill-opacity="0.3">\n)
   100.times{|j|
     r, g, b = rand(76), rand(76), rand(76)
-		crgb = sprintf("#%02x%02x%02x", r + 170, g + 170, b + 170)
-		wrgb = sprintf("#%02x%02x%02x", r + 70, g + 70, b + 70)
+    crgb = sprintf("#%02x%02x%02x", r + 170, g + 170, b + 170)
+    wrgb = sprintf("#%02x%02x%02x", r + 70, g + 70, b + 70)
     st = ['none', wrgb]
     st2 = ['none', crgb]
     f.write %(<path d=")
@@ -46,5 +40,6 @@ ct = ['20, 20','0, -1100']
   }
   f.write %(</g>\n</g>\n</g>\n</g>\n)
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer

@@ -1,4 +1,6 @@
 
+require_relative '../lib/svg_canvas'
+
 class Line
   def initialize(j,dr)
     @int = 20
@@ -45,19 +47,12 @@ class Line
   end
 end
 
-f = open("plaid_color_filled.svg", "w") 
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1200" height="1200"
-  viewBox="0 0 1200 1200">
-<title>plaid_color_filled</title>
-EOS
-)
+
+# header
+s = SvgCanvas.new(1200, 1200, "plaid_color_filled")
+f = s.header
+
+# main
 cn = [0, 90]
 ct = ['20, 20','0, -1100']
 2.times{|i|
@@ -87,5 +82,6 @@ ct = ['20, 20','0, -1100']
   end
   f.write %(</g>\n</g>\n</g>\n</g>\n)
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer
