@@ -1,19 +1,12 @@
 
+require_relative '../lib/svg_canvas'
 include Math
 
-f = open("geometry_arc.svg", "w") 
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1200" height="1200"
-  viewBox="0 0 1200 1200">
-  <title>geometry_arc</title>
-EOS
-)
+# header
+s = SvgCanvas.new(1200, 1200, "geometry_arc")
+f = s.header
+
+# main
 cn = 200
 3.times{|i|
   3.times{|j|
@@ -35,5 +28,6 @@ cn = 200
     f.write %(" />\n</g>\n)
   }
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer

@@ -1,17 +1,11 @@
 
-f = open("geometry_rotate.svg", "w")
-f.write(<<"EOS"
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-  <svg version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1200" height="1000"
-  viewBox="0 0 1200 1000">
-  <title>geometry_rotate</title>
-EOS
-)
+require_relative '../lib/svg_canvas'
+
+# header
+s = SvgCanvas.new(1200, 1200, "geometry_rotate")
+f = s.header
+
+# main
 cn = 200
 6.times{|i|
   6.times{|j|
@@ -57,5 +51,6 @@ cn = 200
   f.write %(</g>\n</g>\n</g>\n</g>\n)
   }
 }
-f.write %(</svg>\n)
-f.close
+
+# footer
+s.footer
