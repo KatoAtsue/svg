@@ -2,15 +2,6 @@
 require_relative '../lib/svg_canvas'
 include Math
 
-# fibonacci
-def fib(n)
-  if n < 2
-    return n
-  else
-    return fib(n - 2) + fib(n - 1)
-  end
-end
-
 # silver ratio
 def silver(n)
   if n < 2
@@ -29,7 +20,7 @@ add_sub = [[-1,1,1,-1],[-1,-1,1,1],[1,-1,-1,1],[1,1,-1,-1]]
 rot = 30
 
 f.write %(<g stroke="#666" stroke-width="0.3" fill="none">\n)
-58.times{|i|
+51.times{|i|
   mx = 360
   my = 360
   ra = []
